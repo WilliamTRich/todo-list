@@ -1,6 +1,7 @@
 //Utilities
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 //Components
 import Input from "@/components/Input";
@@ -12,6 +13,9 @@ const Auth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  //Router hook
+  const router = useRouter();
+
   //Use State for Login/Reg
   const [variant, setVariant] = useState("login");
 
@@ -22,19 +26,6 @@ const Auth = () => {
     );
   }, []);
 
-  //Register Function 
-  const register = useCallback(async () => {
-    try {
-      await axios.post('api/register', {
-        email,
-        username,
-        password
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [email, username, password]);
-
   //Login Function 
   const login = useCallback(async () => {
     try {
@@ -44,10 +35,25 @@ const Auth = () => {
         redirect: false,
         callbackUrl: '/'
       });
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
   }, [email, password]);
+
+  //Register Function 
+  const register = useCallback(async () => {
+    try {
+      await axios.post('api/register', {
+        email,
+        username,
+        password
+      });
+      login();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, username, password, login]);
 
   return (
     <main className="flex h-screen bg-gray-50">
