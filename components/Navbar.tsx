@@ -8,8 +8,8 @@ import { signOut } from "next-auth/react";
 interface NavbarProps {
   username: string;
 }
-
 const Navbar: React.FC<NavbarProps> = ({ username }) => {
+
   return (
     <nav className="flex flex-col border-r-black border-r-2 w-56 bg-gray-800 h-full items-center ">
       <div className="flex-grow w-full">
